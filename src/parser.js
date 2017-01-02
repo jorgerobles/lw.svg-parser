@@ -15,8 +15,9 @@ class Parser {
         this.document = null // Document info { width, height, viewBox }
         this.defs     = null // Defined <defs> (DOM) nodes list by id
         this.symbols  = null // Defined <symbol> (DOM) node with mandatory id
+        this.patterns = null // Defined <patterns> (DOM) node with mandatory id
         this.tags     = null // Tag objects hierarchy
-
+        
         // Trace settings (Arc, Bezier)
         this.traceSettings = Object.assign({
             linear       : true, // Linear trace mode
@@ -27,7 +28,7 @@ class Parser {
 
         // Supported tags by this lib
         this.supportedTags = [
-            'svg', 'g', 'defs', 'symbol', 'use',
+            'svg', 'g', 'defs', 'symbol', 'pattern', 'use',
             'line', 'polyline', 'polygon',
             'rect', 'circle', 'ellipse', 'path',
             'title', 'desc', 'image', 'text'
@@ -194,6 +195,7 @@ class Parser {
         this.defs     = {}
         this.tags     = null
         this.symbols  = {}
+        this.patterns = {}
 
         // Load input if provided
         if (input) {

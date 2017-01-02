@@ -97,6 +97,9 @@ class TagParser {
             }
         })
 
+        // Parse fill with references
+        this._parseFillReferences()
+
         // Parse viewBox attribute
         this._parseViewBoxAttr()
 
@@ -440,6 +443,19 @@ class TagParser {
         })
     }
 
+    _parseFillReferences() {
+        let fill_reference = /url\(\#([^\)]+)\)/gi.exec(this.tag.getAttr('fill') || "");
+        if (fill_reference && fill_reference.length) { 
+            let fill_entity=this.parser.patterns[fill_reference[1]];
+                fill_entity.childNodes.forEach((node,i)=>{
+                    let element;
+                    if (element=this.parser._parseElement(node)) {
+                        console.warn("WIP clip mosaic of #"+fill_reference[1]+" within "+this.tag.name )
+                    }
+                })
+        }
+    }
+
     _newPath() {
         this.tag.newPath()
     }
@@ -561,6 +577,14 @@ class TagParser {
         }
 
         return true
+    }
+
+    _pattern() {
+        if (this.tag.element.id){
+            this.parser.patterns[this.tag.element.id] = this.tag.element;
+        }
+
+        return false
     }
 
     _use() {
